@@ -1,0 +1,940 @@
+@import "./animations.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --grey-color: #E8DFD4;
+    --blue-color: #2388C1;
+    --yellow-color: #FFCD32;
+    --green-color: #439948;
+    --orange-color: #FE6B32;
+}
+
+input{
+    outline: none;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: "basier circle";
+    src: url("fonts/basier-cufonfonts/BasierCircle-Regular.otf");
+}
+
+@font-face {
+    font-family: "basier circle medium";
+    src: url("fonts/basier-cufonfonts/BasierSquare-Medium.ttf");
+}
+
+@font-face {
+    font-family: "basier circle semibold";
+    src: url("fonts/basier-cufonfonts/BasierCircle-SemiBold.ttf");
+}
+
+@font-face {
+    font-family: "neue metana regular";
+    src: url("fonts/neue_metana/NeueMetana-Regular.otf");
+}
+
+@font-face {
+    font-family: "neue metana bold";
+    src: url("fonts/neue_metana/NeueMetana-Bold.otf");
+}
+
+body{
+    color: #E1D8CC;
+    background-color: #000000;
+}
+.accordion > header{
+	position: relative;
+}
+
+.accordion > header .heading{
+	flex-shrink: 0;
+	transition: color 0.3s;
+}
+
+
+.accordion > header .toggle{
+	position: absolute;
+	top: 0; left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.accordion .body-wrapper{
+	overflow: hidden;
+	max-height: 0;
+	transition: max-height 0.3s;
+}
+                       
+.navbar{
+    z-index: 98;
+}
+
+.popup{
+    z-index: 99;
+}
+
+.navbar .logo-test{
+    width: 4rem;
+}
+
+.navbar .logo-link > svg{
+    width: 9rem;
+    top: -8vh;
+    left: -4.8rem;
+    transform: rotate(-90deg);
+    cursor: pointer;
+}
+
+#wrapper{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    transition: transform;
+    transform-origin: left center;
+    transition-timing-function: linear;
+}
+#wrapper > .section{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-shrink: 0;
+}
+
+#preloader{
+    animation: preloader 0ms;
+    animation-delay: 2200ms;
+    animation-fill-mode: both;
+    background:#000000;
+    height: 100vh;
+    width: 100vw;
+    position:fixed;
+    z-index:100;
+}
+  
+#preloader .rectangle{
+    animation: move-left 300ms ease-in-out alternate, anim-fade-out 0s;
+    animation-iteration-count: 2, 1;
+    animation-fill-mode: none, forwards;
+    animation-delay: 0ms, 650ms;
+}
+
+#preloader .rectangle:nth-child(2){
+    animation: move-right 300ms ease-in-out alternate, anim-fade-out 0s;
+    animation-iteration-count: 2, 1;
+    animation-fill-mode: none, forwards;
+    animation-delay: 0ms, 650ms;    
+}
+
+#preloader .star{
+    animation: spin-90 700ms ease, anim-fade-in 0s ease;
+    animation-fill-mode: none, both;
+    animation-direction: normal, normal;
+    animation-iteration-count: 1, 1;
+    animation-delay: 650ms, 650ms;    
+}
+
+#preloader .eye{
+    animation: anim-fade-in 0s ease;
+    animation-fill-mode: both;
+    animation-delay: 1550ms;        
+}
+
+#preloader .eye-lid{
+    animation: eye-open 1800ms ease;
+    animation-fill-mode: both;
+    animation-delay: 1300ms;        
+    transform-origin: center 10%;
+}
+
+#im-playground #sun{
+    top: -26rem;
+    width: 42rem;
+    z-index: 5;
+    animation: anim-im-playground-sun 5500ms linear infinite;
+    animation-fill-mode: both;
+} 
+
+#sun-loader{
+    z-index: 100;
+    animation: scale-out 6s ease 2.8s 1 forwards;
+}
+
+.loading-sun{
+    animation: spin 1s ease 2.3s;
+    fill: var(--orange-color);
+    transform-origin: center;
+}
+
+#star-divider{
+    bottom: -36rem;
+    right: -34rem;
+    width: 69rem;
+    transition: transform 800ms;
+}
+
+#im-your-imagination .content{
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.scroll-box{
+    height:50vh;
+    width:auto;
+    border:0.5px solid #ccc;
+    overflow:auto;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 15px;
+    letter-spacing: 1px;
+    line-height: 1.5;
+}
+
+.privacy-title{
+    margin: 30px;
+    font-weight: 500;
+    font-size: 25px;
+}
+
+.privacy-sub{
+    margin: 10px;
+    font-weight: 500;
+    font-size: 30px;
+    min-width: 330px;
+}
+
+.footer{
+    max-height: 27vh;
+}
+
+.footer-logo{
+    display: none;
+    align-self: center;
+    max-width: 200px;
+}
+
+.hover-underline-animation {
+    display: inline-block;
+    position: relative;
+    color: black;
+  }
+  
+  .hover-underline-animation:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: black;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+  
+  .hover-underline-animation:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+
+  .text-2xl{
+    font-size: 1.2rem;
+  }
+
+.footer .social-icons{
+    display: none;
+}
+
+#discover-more{
+    z-index: 99;
+}
+
+#im-your-imagination .star-container{
+    top: -7rem;
+    left: -10rem;
+    width: 10rem;
+}
+
+#im-your-imagination .anim-im-your-imagination-pattern1{
+    top: -1rem;
+    left: 5rem;
+    width: 60%;
+}
+#im-your-imagination .anim-im-your-imagination-pattern2{
+    width: 80%;
+}
+#world-beyond #black-sun{
+    left: 1.1em;
+    top: 0.15em;
+}
+
+#world-beyond #black-star{
+    top: -0.17em;
+    left: -0.1em;
+    width: 0.4em;
+    height: 0.4em; 
+}
+#world-beyond .eye-in-a{
+    width: 0.8em;
+    top: 0.25em;
+    left: -0.05em;
+}  
+#world-beyond .eye-black{
+    top: 0.45em;
+    left: 0.01em;
+    width: 0.6em;
+    height: 0.45em;
+}    
+
+#play-roles{
+    transition: opacity 300ms;
+}
+/*
+|--------------------------------------------------------------------------
+| All Animation Classes
+|--------------------------------------------------------------------------
+*/
+
+#im-your-imagination #pattern-10{
+    transform: translate(-3rem, -12rem);
+}
+
+#im-your-imagination #pattern-10:last-child{
+    transform: translate(-9rem, -8rem);
+}
+
+.anim-scroll-to-explore{
+    border-color: #E1D8CC;
+}
+
+.anim-scroll-to-explore::before{
+    background-color: #E1D8CC;
+    animation: anim-scroll-to-explore 900ms linear infinite;
+    animation-fill-mode: both;     
+    animation-direction: alternate;
+    transform-origin: center top;
+}
+
+#im-your-imagination.enter-start .im-your-imagination-fading-text{
+    animation: im-your-imagination-fading-text 1200ms ease 1;
+    animation-fill-mode: both;   
+    animation-play-state: paused;  
+}
+
+#im-your-imagination.enter-end .im-your-imagination-fading-text{
+    animation-play-state: running;
+}
+
+#im-your-imagination.enter-start .anim-im-your-imagination-pattern1{
+    animation: anim-im-your-imagination-pattern1 1000ms ease 1;
+    animation-delay: 500ms;
+    animation-fill-mode: both;     
+    animation-play-state: paused; 
+}
+
+#im-your-imagination.enter-end .anim-im-your-imagination-pattern1{
+    animation-play-state: running;   
+}
+
+#im-your-imagination.enter-start .anim-im-your-imagination-pattern2{
+    animation: anim-im-your-imagination-pattern2 1000ms ease 1;
+    animation-delay: 200ms;
+    animation-fill-mode: both;  
+    animation-play-state: paused;    
+}
+
+#im-your-imagination.enter-end .anim-im-your-imagination-pattern2{
+    animation-play-state: running; 
+}
+
+#create-future.enter-start .anim-create-future{
+    animation: anim-create-future 600ms ease 1;
+    animation-fill-mode: both; 
+    animation-play-state: paused;
+}
+
+#create-future.enter-end .anim-create-future{
+    animation-play-state: running;
+}
+#play-roles.enter-start .body{
+    animation: anim-create-future 500ms ease 1;
+    animation-fill-mode: both; 
+    animation-play-state: paused;
+}
+
+#play-roles.enter-end .body{
+    animation-play-state: running;
+}
+
+#play-roles.enter-end .title{
+    transition: opacity 300ms, transform 300ms;
+}
+
+#play-roles.enter-start .desc{
+    animation: anim-fade-in 500ms ease 1;
+    animation-fill-mode: both; 
+    animation-delay: 300ms;
+    animation-play-state: paused;    
+}
+
+#play-roles .desc{
+    transition: transform 300ms;
+}
+
+#play-roles.enter-end .desc{
+    animation-play-state: running;
+}
+/*-400*/
+#socialize{
+    transition: opacity 0.3s;
+}
+
+#socialize.enter-start .title{
+    animation: anim-create-future 500ms ease 1;
+    animation-fill-mode: both; 
+    animation-play-state: paused;
+}
+
+#socialize.enter-end .title{
+    animation-play-state: running;
+}
+
+#socialize.enter-start .desc{
+    animation: anim-fade-in 500ms ease 1;
+    animation-fill-mode: both; 
+    animation-delay: 300ms;
+    animation-play-state: paused;    
+}
+
+#socialize.enter-end .desc{
+    animation-play-state: running;
+}
+
+
+.anim-fade-in{
+    -webkit-animation: anim-fade-in 1000ms ease 1;
+    animation: anim-fade-in 1000ms ease 1;
+    animation-fill-mode: both; 
+}
+
+.anim-fade-out{
+    -webkit-animation: anim-fade-out 1000ms ease 1;
+    animation: anim-fade-out 1000ms ease 1;
+    animation-fill-mode: both; 
+}
+
+#im-your-wallet{
+    transition: opacity 0.2s;
+}
+
+#im-your-wallet.enter-start .anim-im-your-wallet-title{
+    animation: anim-im-your-wallet-title 400ms ease 1, anim-fade-in 400ms ease 1;
+    animation-fill-mode: both; 
+    animation-play-state: paused;
+}
+
+#im-your-wallet.enter-end .anim-im-your-wallet-title{
+    animation-play-state: running;
+}
+
+#im-your-wallet.enter-start .anim-im-your-wallet-desc{
+    animation: anim-im-your-wallet-desc 400ms ease 1, anim-fade-in 400ms ease 1;
+    animation-delay: 300ms;
+    animation-fill-mode: both; 
+    animation-play-state: paused;
+}
+
+#im-your-wallet.enter-end .anim-im-your-wallet-desc{
+    animation-play-state: running;
+}
+
+#im-adventure{
+    transition: opacity 0.5s;
+}
+
+#im-adventure > span{
+    width: 50rem;
+}
+
+#im-adventure.enter-start .anim-eye-lid-blinking{
+    animation: eye-lid-blinking 2200ms linear;
+    animation-delay: 100ms;
+    transform-origin: 50% -10%;
+    animation-fill-mode: both;
+    animation-play-state: paused;
+}
+
+#im-adventure.enter-end .anim-eye-lid-blinking{
+    animation-play-state: running;
+}
+
+#im-adventure.enter-start .anim-eye-zoom-out{
+    animation: anim-eye-zoom-out 600ms ease;
+    animation-fill-mode: both;
+    animation-play-state: paused;    
+}
+
+#im-adventure.enter-end .anim-eye-zoom-out{
+    animation-play-state: running;    
+}
+
+#im-adventure.enter-start .adventure{
+    animation: anim-fade-in;
+    animation-duration: 0ms;
+    animation-delay: 1500ms;
+    animation-fill-mode: both;
+    animation-play-state: paused; 
+}
+
+#im-adventure.enter-end .adventure{
+    animation-play-state: running;    
+}
+
+#im-adventure.enter-start .im-your{
+    animation: anim-fade-out;
+    animation-duration: 0ms;
+    animation-delay: 1500ms;
+    animation-fill-mode: both;
+    animation-play-state: paused; 
+}
+
+#im-adventure.enter-end .im-your{
+    animation-play-state: running;    
+}
+
+#explore{
+    transition: opacity 0.2s;
+}
+
+#explore.enter-start .explore,
+#explore.enter-start .explore-desc{
+    animation: anim-fade-in 600ms ease 1;
+    animation-fill-mode: both; 
+    animation-play-state: paused;    
+}
+
+#explore.enter-end .explore,
+#explore.enter-end .explore-desc{
+    animation-play-state: running;    
+}
+
+#explore.enter-start .explore-desc{
+    animation-delay: 200ms;   
+}
+
+#im-your-home{
+    transition: opacity 400ms, transform 400ms;
+}
+
+#im-your-home.enter-start .anim-im-your-home-box{
+    animation: anim-im-your-home-box 1200ms ease-in;
+    animation-fill-mode: both;   
+    animation-play-state: paused; 
+}
+
+#im-your-home.enter-end .anim-im-your-home-box{
+    animation-play-state: running; 
+}
+
+#im-your-home.enter-start .anim-im-your-home-inner-box{
+    animation: anim-im-your-home-inner-box 1100ms ease;
+    animation-fill-mode: both;
+    animation-delay: 1100ms;
+    transform-origin: center bottom;
+    animation-play-state: paused;
+}
+
+#im-your-home.enter-end .anim-im-your-home-inner-box{
+    animation-play-state: running;
+}
+
+#im-your-home.enter-start .anim-im-your-home-squares{
+    animation: anim-im-your-home-squares 500ms ease;
+    animation-fill-mode: both;
+    animation-delay: 2100ms;
+    animation-play-state: paused;
+}
+
+#im-your-home.enter-end .anim-im-your-home-squares{
+    animation-play-state: running;
+}
+
+#im-your-home.enter-start .im-your-text{
+    animation-name: anim-fade-out;
+    animation-duration: 0ms;
+    animation-delay: 1300ms;
+    animation-play-state: paused;
+    animation-fill-mode: both;
+}
+
+#im-your-home.enter-end .im-your-text{
+    animation-play-state: running;
+}
+
+#im-your-home.enter-start .home-text{
+    animation: anim-fade-in 0ms 1700ms, anim-im-your-home-home-text 100ms ease 1700ms;
+    animation-play-state: paused, paused;
+    animation-fill-mode: both, both;
+}
+
+#im-your-home.enter-end .home-text{
+    animation-play-state: running, running;
+}
+
+.anim-circle-clip-path{
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.anim-world-beyond-o{
+    animation: anim-world-beyond-o 1600ms ease-out infinite;
+    animation-fill-mode: both;
+}
+
+.anim-world-beyond-u{
+    animation: anim-world-beyond-u 1400ms ease-out infinite;
+    animation-fill-mode: both;
+}
+
+#im-playground.enter-start #im-your{
+    animation: anim-fade-out 200 ease;
+    animation-delay: 1000ms;
+    animation-fill-mode: both;
+    animation-play-state: paused;
+} 
+
+#im-playground.enter-end #im-your{
+    animation-play-state: running;
+} 
+
+#im-playground.enter-start #load-bar{
+    animation: anim-im-playground-load-bar, anim-fade-out;
+    animation-timing-function: linear, ease;
+    animation-duration: 1000ms, 200ms;
+    animation-delay: 0ms, 1000ms;
+    animation-fill-mode: both;
+    transform-origin: left center;
+    animation-play-state: paused;
+} 
+
+#im-playground.enter-end #load-bar{
+    animation-play-state: running;
+} 
+
+#im-playground.enter-start .playground{
+    animation: anim-im-playground-playground 600ms;
+    animation-fill-mode: both;
+    animation-play-state: paused;
+} 
+
+#im-playground.enter-end .playground{
+    animation-play-state: running;
+} 
+
+#im-playground .playground:nth-child(1){
+    animation-delay: 1200ms;
+} 
+
+#im-playground .playground:nth-child(2){
+    animation-delay: 1300ms;
+} 
+
+#im-playground .playground:nth-child(3){
+    animation-delay: 1400ms;
+} 
+
+#im-playground .playground:nth-child(4){
+    animation-delay: 1500ms;
+} 
+
+#im-playground .playground:nth-child(5){
+    animation-delay: 1600ms;
+} 
+
+#your-key{
+    transition: opacity 0.5s;
+}
+
+#your-key.enter-start .your-key{
+    animation: anim-your-key 0.6s;
+    animation-fill-mode: both;    
+    animation-play-state: paused;
+}
+
+#your-key.enter-start .to-the{
+    animation: anim-to-the 0.6s;
+    animation-fill-mode: both;   
+    animation-delay: 200ms; 
+    animation-play-state: paused;
+}
+
+#your-key.enter-start .unknown{
+    animation: anim-unknown 0.6s;
+    animation-fill-mode: both;
+    animation-delay: 300ms;    
+    animation-play-state: paused;
+}
+
+#your-key.enter-start .unlock-btn{
+    animation: anim-fade-in 0.6s;
+    animation-fill-mode: both;
+    animation-delay: 500ms;    
+    animation-play-state: paused;
+}
+
+#your-key.enter-start .footer{
+    animation: anim-fade-in 3s;
+}
+
+#your-key.enter-end .your-key,
+#your-key.enter-end .to-the,
+#your-key.enter-end .unknown,
+#your-key.enter-end .unlock-btn{
+    animation-play-state: running;
+}
+
+/* FAQ */
+
+.faq1{
+    margin-top:18.0pt;margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;line-height:115%;font-size:21px;font-weight:normal;
+}
+.faq2{
+    margin-top:18.0pt;margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;line-height:115%;font-size:15px;font-weight:normal;
+}
+.faq3{
+    margin:0cm;margin-bottom:.0001pt;line-height:115%;font-size:15px;
+}
+.faq4{
+    margin-top:18.0pt;margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;line-height:115%;font-size:21px;font-weight:normal;
+}
+.faq5{
+    margin:0cm;margin-bottom:.0001pt;line-height:115%;font-size:15px;
+}
+.faq6{
+    margin-top:18.0pt;margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;line-height:115%;font-size:21px;
+}
+.faq7{
+    margin:0cm;margin-bottom:.0001pt;line-height:115%;font-size:15px;
+}
+.faq8{
+    margin:0cm;margin-bottom:.0001pt;line-height:115%;font-size:15px;
+}
+.faq9{
+    margin:0cm;margin-bottom:.0001pt;line-height:115%;font-size:15px;
+}
+.faq10{
+    margin-top:18.0pt;margin-right:0cm;margin-bottom:6.0pt;margin-left:0cm;line-height:115%;font-size:21px;
+}
+.faq11{
+    margin:0cm;margin-bottom:.0001pt;line-height:115%;font-size:15px;
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Desktop Layout
+|--------------------------------------------------------------------------
+*/
+
+@media only screen and (min-width: 1281px) {
+	html {
+		font-size: calc(16px + ( (100vw - 1281px) *  0.002814) );
+	}
+    .section{
+        padding-left: calc(160px + ( (100vw - 1281px) *  0.23925) );
+        padding-right: calc(160px + ( (100vw - 1281px) *  0.23925) );
+    }
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Laptop Layout
+|--------------------------------------------------------------------------
+*/
+
+@media only screen and (min-width: 110px) {
+
+    .footer-text{
+        padding-left: 6px;
+        padding-right: 6px;
+        max-height:50px;
+        color:#E8DFD4;
+    }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Tablet Layout
+|--------------------------------------------------------------------------
+|
+*/
+
+@media only screen and (max-width: 1100px){	
+    html, body{
+        overscroll-behavior-y: none;
+        /* touch-action: none; */
+        /**/
+        /* height: 10000vh; */
+    }
+    #wrapper{
+        position: fixed;
+        flex-direction: column;
+        transform-origin: center top;
+        /**/
+        overscroll-behavior-y: none;
+        touch-action: none;
+    }   
+    #wrapper > .section{
+        height: calc(100vh - calc(100vh - 100%));
+    }
+    .skrollr.skrollr-desktop #wrapper{
+        transform: none !important;
+    }
+    .skrollr.skrollr-desktop body{
+        overflow-x: hidden;
+    }    
+    .skrollr.skrollr-mobile #wrapper{
+        touch-action: none;
+    } 
+    .navbar .logo-link > svg{
+        transform: none;
+    }
+    #im-playground #sun{
+        top: -35%;
+        width: 70%;
+    }    
+    #star-divider{
+        bottom: -61vw;
+        left: -7vw;
+        width: 114vw;
+        z-index: -1;
+    }    
+    #im-adventure > span{
+        width: 110%;
+    }    
+    #im-adventure .adventure{
+        font-size: 8vw;
+    }   
+    #im-adventure .im-your{
+        font-size: 4vw;
+    }  
+    #world-beyond #black-sun{
+        left: 1.1em;
+        top: 0.2em;
+        width: 0.7em;
+        height: 0.7em;
+    }       
+    #world-beyond #black-star{
+
+        width: 0.45em;
+        height: 0.45em; 
+    }     
+    #world-beyond .eye-in-a{
+        top: 0.3em;
+    }     
+    /* #world-beyond .eye-black{
+        top: 0.45em;
+    }          */
+    /* #pattern-sun{
+        margin: 0;
+        height: 100vh;
+        bottom: auto;
+        right: auto;
+    } */
+    .footer .footer-logo{
+        display: flex;
+    }    
+    .footer .social-icons{
+        display: flex;
+    }
+    .footer-text{
+        padding-left: 6px;
+        padding-right: 6px;
+        max-height:50px;
+        color: #000000;
+    }
+}
+/*
+|--------------------------------------------------------------------------
+| Mobile Layout
+|--------------------------------------------------------------------------
+*/
+
+@media only screen and (max-width: 700px){
+    html{
+        font-size: 14.4px;
+    }
+    #im-your-imagination .im-your-imagination-fading-text{
+        font-size: 8vw;
+    }    
+    #im-your-imagination .star-container{
+        left: -1rem;
+        top: -2rem;
+        width: 5rem;
+    }
+    #im-your-imagination .anim-im-your-imagination-pattern1{
+        top: 1rem;
+        left: 2.5rem;
+    }    
+    #im-playground #sun{
+        top: -21vw;
+        width: 61vw;
+    }     
+    #im-playground #im-your{
+        font-size: 10vw;
+    }    
+    #im-playground .playground-words{
+        font-size: 10vw;
+    }
+    #im-your-wallet .anim-im-your-wallet-title{
+        font-size: 11.8vw;
+    }
+    #im-your-wallet .anim-im-your-wallet-desc{
+        line-height: 6.5vw;
+        font-size: 3.8vw;
+    }    
+    #world-beyond h1{
+        font-size: 10vw;
+    }
+    #your-key{
+        padding-bottom: 12.8rem;
+    }
+    #your-key > span:first-child{
+        font-size: 8.2vw;
+    }
+    #your-key > span:first-child svg{
+        width: 1.55em;
+    }
+    .footer .footer-logo{
+        width: 5rem;
+    }
+    .footer .social-icons svg{
+        width: 1.4rem;
+    }    
+    .section.footer-description{
+        padding-bottom: 14rem;
+        height: auto;
+    }
+}
