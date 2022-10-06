@@ -1,0 +1,18 @@
+variables:
+  GITLAB_USERNAME: gitlab-ci-token
+  GITLAB_PASSWORD: $CI_JOB_TOKEN
+  KUBERNETES_CPU_REQUEST: 4
+  KUBERNETES_MEMORY_REQUEST: 2048Mi
+  KUBERNETES_MEMORY_LIMIT: 8000Mi
+  KUBERNETES_HELPER_EPHEMERAL_STORAGE_LIMIT: 1000Mi
+  NODE_OPTIONS: '--max_old_space_size=4096'
+
+include:
+  - project: technology/utils/cicd/gitlab-ci-pipeline-templates
+    ref: v2.0.3
+    file:
+      - nodejs.gitlab-ci.yml
+      - workflow.gitlab-ci.yml
+      - docker.buildx.gitlab-ci.yml    
+      - argocd.gitlab-ci.yml
+      - release.gitlab-ci.yml
