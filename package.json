@@ -1,9 +1,15 @@
 {
   "name": "gryfyn-next",
-  "version": "0.1.0",
+  "description": "Gryfyn | Your key to the (un)known",
+  "version": "1.0.3",
+  "main": "pages/index.js",
   "private": true,
+  "contributors": [
+    "Yaser Ibrahim <yaser.ibrahim@hextrust.com>"
+  ],
   "scripts": {
     "dev": "next dev",
+    "dev2": "next dev -p 8080",
     "build": "next build && next export",
     "start": "next start",
     "lint": "next lint"
@@ -13,13 +19,17 @@
     "next": "^12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-skrollr": "^1.0.4"
+    "react-router-dom": "^6.4.2",
+    "react-skrollr": "^1.0.4",
+    "web3": "^1.8.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.8",
-    "eslint": "8.22.0",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.25.0",
     "eslint-config-next": "12.2.5",
     "postcss": "^8.4.16",
+    "prettier": "^2.7.1",
     "tailwindcss": "^3.1.8"
   }
 }

@@ -356,7 +356,3 @@ setTimeout(() => {
         document.documentElement.style.touchAction = 'none'
     }
 }, 3600)
-
-document.getElementById('discover-more').addEventListener('click', () => {
-    funnyScroll.slide(10, true)
-})

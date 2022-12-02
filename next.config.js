@@ -1,8 +1,18 @@
 /** @type {import('next').NextConfig} */
+
+require('dotenv').config();
+const webpack = require('webpack');
+
 const nextConfig = {
+  webpack: (config) => {
+    config.plugins.push(
+      new webpack.EnvironmentPlugin(process.env)
+    )
+    return config
+  },
   reactStrictMode: true,
   swcMinify: true,
-  trailingSlash: true,
+  trailingSlash: false,
   webpackDevMiddleware: (config) => {
     // Solve compiling problem via vagrant
     config.watchOptions = {

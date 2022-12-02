@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-before-interactive-script-outside-document */
 import Link from 'next/link'
 import Script from 'next/script'
 import MainLayout from '../components/MainLayout'
@@ -7,15 +8,74 @@ import Button from '../components/Button'
 import Form from '../components/Form'
 import Popup from '../components/Popup'
 import PageHead from '../components/PageHead'
-import Head from 'next/head'
+import Head from 'next/head';
 import { useCallback, useEffect, useState } from 'react'
+import Web3 from 'web3';
 
-export default function Home(){
-    const [popupShown, setPopupShown] = useState(false)
-    const [usrEmailAddr, setUsrEmailAddr] = useState('')
-    const [usrEmailValid, setUsrEmailValid] = useState(true)
-    const [successSubscribe, setSuccessSubscribe] = useState(false)
+// import ScrollBtn from '../components/ScrollBtn'
   
+export default function Home(){
+    const [popupShown, setPopupShown] = useState(false);
+    const [usrEmailAddr, setUsrEmailAddr] = useState('');
+    const [usrEmailValid, setUsrEmailValid] = useState(true);
+    const [successSubscribe, setSuccessSubscribe] = useState(false);
+    const [isConnected, setIsConnected] = useState(false);
+    const [localWalletProvider,setLocalWalletProvider]=useState();
+    const [localWeb3,setLocalWeb3]=useState();
+    const [connectCount, setConnectCount] = useState(0);
+    const [curUrlBase, setUrlBase] = useState();
+
+    const [loadedScript, setLoadedScript] = useState(false);
+    
+    const openWallet = useCallback(() => {
+        if(localWalletProvider){
+            localWalletProvider.openWallet()
+            .then((res) => res ?? console.log('Opening Wallet.. ', res))
+            .catch(() => null);
+        }
+        setIsConnected(true);
+    })
+    const closeWallet = useCallback(() => localWalletProvider.closeWallet(), [localWalletProvider]);
+
+    const walletConnected = () => setIsConnected(true);
+    const walletDisconnected = () => setIsConnected(false);
+    const [hideLoader, setHideLoader] = useState(false);
+    const [testnet, setTestnet] = useState(false);
+    
+    const apiMinBase = () => {
+        const current_loc = window.location.hostname;
+        switch( true ) {
+            case (current_loc.indexOf('uat-testnet') > -1): 
+                setUrlBase('uat-testnet');
+                setTestnet(true);
+                break;
+            case (current_loc.indexOf('uat') > -1): 
+                setUrlBase('uat');
+                setTestnet(false);
+                break;
+            case (current_loc.indexOf('alpha') > -1): 
+                setUrlBase('alpha');
+                setTestnet(true);
+                break;
+            case (current_loc.indexOf('beta') > -1): 
+                setUrlBase('beta');
+                setTestnet(true);
+                break;
+            case (current_loc.indexOf('localhost') > -1): 
+                setUrlBase('prod');
+                setTestnet(true);
+                break;
+            case (current_loc.indexOf('gryfyn.io') > -1): 
+                setUrlBase('prod');
+                setTestnet(false);
+                break;
+            default:
+                setUrlBase('uat');
+                setTestnet(false);
+                break;
+          }
+    }
+        
     const subscribe = useCallback(() => {
         const options = {
             method: 'POST',
@@ -35,14 +95,103 @@ export default function Home(){
             return response.json()
         })
         .then(response => {
-            setUsrEmailAddr('')
-            setUsrEmailValid(true)
-            setSuccessSubscribe(true)
+            setUsrEmailAddr('');
+            setUsrEmailValid(true);
+            setSuccessSubscribe(true);
         })
         .catch(err => {
-            console.error(err)
+            console.error('Error wile subscribing: ', err);
         });        
-    }, [usrEmailAddr])    
+    }, [usrEmailAddr]);
+
+    const connect = () => {
+        if(loadedScript && localWalletProvider && !isConnected){
+            setHideLoader(false);
+            console.info('Connecting Wallet ');
+            openWallet();
+            walletConnected();
+            (async () => {
+                try {
+                    await localWalletProvider.connect()
+                    setTimeout(() => setHideLoader(true), 600);
+                } catch (err) {
+                    console.error('Connection Failed: ', err);
+                    closeModal();
+                    walletDisconnected();
+                    if(connectCount < 5){
+                        setConnectCount(connectCount+1);
+                        console.info('Reconnecting: try #', connectCount);
+                        closeWallet();
+                        connect();
+                    }else{
+                        setConnectCount(0);
+                    }
+                    return;
+                }
+            })();
+        }else{
+            closeModal();
+        }
+    };
+    
+    const closeModal = useCallback(() => {
+        if(isConnected){
+            if(localWalletProvider){
+                closeWallet();
+            }
+            walletDisconnected();
+        }
+    }, [closeWallet, isConnected, localWalletProvider]);
+
+    useEffect(() => {        
+        apiMinBase();
+        //This code is executed in the browser 
+        if(!localWalletProvider && loadedScript){
+            const walletProvider = GryFyn.default.getProvider(testnet ? 'treasurehunt_testnet' : 'treasurehunt');
+            const web3 = new Web3(walletProvider);
+            setLocalWeb3(web3);
+            setLocalWalletProvider(walletProvider);
+        }
+
+        if(localWalletProvider){
+            localWalletProvider.on('connect', walletConnected);
+            localWalletProvider.on('disconnect', walletDisconnected);
+
+            if(document.querySelector('iframe')){
+                document.querySelector('iframe').addEventListener('load', (e) => {
+                    openWallet();
+                    var observer = new MutationObserver(function(mutations) {
+                        mutations.forEach(function(mutation) {
+                            if (mutation.type === "attributes") {
+                                var new_style = document.getElementById('gryfynIFrame').getAttribute('style').toString().replace(/\s/g, '');
+                                if(new_style.indexOf('display:none') > -1){
+                                    closeModal();
+                                }else{
+                                    setTimeout(()=> openWallet(), 700);
+                                }
+                            
+                            }
+                        });
+                    });
+                    observer.observe( document.getElementById('gryfynIFrame'), {
+                        attributes: true
+                    });
+                });
+            }
+            var removeIframe = new MutationObserver(function (e) {
+                if (e[0].removedNodes && e[0].removedNodes[0]){
+                    if(e[0].removedNodes[0].getAttribute('id') === "gryfynIFrame"){
+                        closeModal();
+                    }
+                }
+            });
+            removeIframe.observe(document.querySelector('body'), { childList: true });
+            return function unsubscribe() {
+                localWalletProvider.off('connect', walletConnected);
+                localWalletProvider.off('disconnect', walletDisconnected);
+            }
+        }
+    }, [isConnected, localWeb3, localWalletProvider, loadedScript, testnet, openWallet, closeModal])
 
     useEffect(() => {
         return () => {
@@ -51,9 +200,32 @@ export default function Home(){
             document.documentElement.style.height = 'auto'
             document.documentElement.style.touchAction = 'auto'            
         }
-    }, [])
+    }, [process]);
 
     return (<>
+        {
+            curUrlBase ?
+            (
+                <>
+                    {
+                        curUrlBase === 'prod' ?
+                        (
+                            <Script id="afterInteractive" async src={`https://loader.wallet.gryfyn.io/api.min.js`} strategy="afterInteractive" 
+                            onLoad={() => setLoadedScript(true)} 
+                            onError={(err) => {
+                                console.error('Error loading Gryfyn script: ', err);
+                            }} />
+                        ) : (
+                           <Script id="afterInteractive" async src={`https://loader.${curUrlBase}.metazens.xyz/api.min.js`} strategy="afterInteractive" 
+                            onLoad={() => setLoadedScript(true)} 
+                            onError={(err) => {
+                                console.error('Error loading Gryfyn script: ', err);
+                            }} />
+                        )
+                    }
+                </>
+            ) : null
+        }
         <Head>
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
@@ -62,9 +234,10 @@ export default function Home(){
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"/>
         <meta name="msapplication-TileColor" content="#da532c"/>
         <meta name="theme-color" content="#ffffff"/>
+        
         <script
             async
-            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_TAG}`}
           />
           <script
             dangerouslySetInnerHTML={{
@@ -72,7 +245,7 @@ export default function Home(){
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+            gtag('config', '${process.env.GOOGLE_ANALYTICS_TAG}', {
               page_path: window.location.pathname,
             });
           `,
@@ -81,6 +254,7 @@ export default function Home(){
         </Head>
         <PageHead/>
         <MainLayout>
+        
             <div id="wrapper" className="wrapper">
                 <LandingPageSection classes={'relative flex flex-col'} tag={'header'} attr={{id: 'world-beyond'}}>
                     <h1 className="relative text-5xl font-['neue_metana_regular'] w-full leading-tight tablet:flex tablet:flex-wrap tablet:justify-center" style={{zIndex: '1'}}>
@@ -347,7 +521,7 @@ export default function Home(){
                             <circle fill="#EA7542" cx="203.98" cy="315" r="22.1" transform="translate(-162.99 236.5) rotate(-45)"/>
                             <circle fill="#2488C1" cx="1128.46" cy="171.69" r="22.1"/>
                         </svg> 
-                        <div className='flex flex-row items-center justify-end text-w tablet:justify-center mobile:text-xs text-body tablet:text-black tablet:py-0 laptop:py-6 desktop:py-6 laptop:gap-5 desktop:gap-5'>
+                        <div id="info-footer" className='flex flex-row items-center justify-end text-w tablet:justify-center mobile:text-xs text-body tablet:text-black tablet:py-0 laptop:py-6 desktop:py-6 laptop:gap-5 desktop:gap-5'>
                             <Link href="/privacy-policy"><a className='text-center footer-texts desktop:text-white hover-underline-animation'>Privacy Policy</a></Link>
                             <Link href="/cookie-policy"><a className='text-center footer-text desktop:text-white hover-underline-animation'>Cookie Policy</a></Link>
                             <Link href="/terms-and-conditions"><a className='text-center footer-text desktop:text-white hover-underline-animation'>Terms &#38; Conditions</a></Link>
@@ -368,10 +542,45 @@ export default function Home(){
                 </LandingPageSection>      
             </div>
             <aside>
-                <Button classes={'text-lg fixed top-4 right-6'} attr={{ id: 'discover-more' }}>
-                    Discover More
-                </Button>   
-            </aside>   
+                {loadedScript ? 
+                <button id="open-wallet" type="button" data-modal-toggle="walletModal" className="text-lg fixed top-4 right-6" onClick={connect}>Open Wallet</button>
+                : null }
+
+                {/* <ScrollBtn /> */}
+            </aside>
+            <Popup
+                id="walletModal" 
+                shown={isConnected}
+                toggleShown={() => closeModal()}
+                closeBtnClasses={"absolute text-6xl text-white md:top-5 md:right-12 top-2 right-6 z-[101] lg:visible"}
+                body={
+                    <div tabIndex="-1" aria-hidden="true" className="fixed top-0 left-0 z-50 flex flex-col items-center justify-center w-screen h-screen transition-opacity duration-300 bg-black bg-opacity-80 popup" onClick={() => closeModal()}>
+                        <div className="relative w-full h-full md:h-auto items-center justify-center flex">
+                            <div role="status" className=" items-center justify-center flex">
+                                { hideLoader ? null : <div className="spinner"></div> }
+                            </div>
+                        </div>
+                    </div>
+                }
+            />  
+
+
+            { (connectCount > 5 ) ?
+            (
+                <div className="fixed bottom-0 left-0 right-0 p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800 justify-center" role="alert">
+                    <svg aria-hidden="true" className="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path></svg>
+                    <span className="sr-only">Info</span>
+                    <span className="font-medium">Cannot connect to Wallet service</span>Please try again later
+                    <ul className="mt-1.5 ml-4 text-blue-700 list-disc list-inside">
+                        <li>Make sure your internet connection is working normally and is stable</li>
+                    </ul>
+                    <button type="button" className="ml-auto -mx-1.5 -my-1.5 bg-red-100 dark:bg-red-200 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 dark:hover:bg-red-300 inline-flex h-8 w-8"  data-dismiss-target="#alert-border-2" aria-label="Close">
+                        <span className="sr-only">Dismiss</span>
+                        <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+            ): null }   
 
             <Popup
                 shown={popupShown}
@@ -394,8 +603,11 @@ export default function Home(){
                         }
                     </div>
                 }
-            />            
+            />
+
+        
         </MainLayout>
+        <span id="endofpage"></span>
         <Script
             id="script-js" src="js/script.js"
             strategy="afterInteractive"
