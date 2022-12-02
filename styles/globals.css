@@ -203,6 +203,51 @@ body{
     letter-spacing: 1px;
     line-height: 1.5;
 }
+.scroll-box ol {
+    padding: 0 2rem;
+}
+
+.scroll-box ol.mainlist {
+    list-style: decimal;
+    counter-reset: item;
+    counter-reset: subitem;
+    content: counters(item, ".") " ";
+}
+.scroll-box ol.mainlist > li {
+    counter-increment: item;
+    padding-bottom: 4px;
+}
+
+.scroll-box ol.mainlist > li::marker {
+    counter-increment: item;
+    content: counter(item, ".") " "; 
+}
+
+.scroll-box ol.subitem {
+    list-style: decimal;
+    counter-reset: subitem;
+    content: counter(item) "." counter(subitem) ". "; 
+    padding: 0 1.2rem;
+}
+.scroll-box ol.subitem > li {
+    counter-increment: subitem;
+    padding: 0.4rem 1rem;
+}
+.scroll-box ol.subitem > li::marker {
+    content: counter(item) "." counter(subitem) ". "; 
+    /* text-indent: 4rem !important; */
+}
+
+.scroll-box ol.alpha {
+    list-style: lower-alpha !important;
+    counter-reset: alphaitem;
+    content: counters(alphaitem, ".") ")";
+    padding: 0 1.2rem;
+}
+
+.scroll-box ::marker {
+    text-indent: 2.2rem !important;
+}
 
 .privacy-title{
     margin: 30px;
@@ -303,6 +348,77 @@ body{
 #play-roles{
     transition: opacity 300ms;
 }
+
+
+/* Custom wallet styling start */
+#open-wallet{
+    position: fixed;
+    border-radius: 0.375rem;
+    padding: 0.42em 1em;
+    --tw-text-opacity: 1;
+    color: rgb(0 0 0 / var(--tw-text-opacity));
+    --tw-bg-opacity: 1;
+    background-color: rgb(232 223 212 / var(--tw-bg-opacity));
+    box-shadow: 0 0 0 #333;
+    z-index: 99;
+    transition: all 0.7s ease;
+}
+
+#open-wallet:hover{
+    box-shadow: inset 0 0 12px #333;
+}
+
+#walletModal{
+    --tw-bg-opacity: 1;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 101;
+    overflow: hidden;
+}
+
+#walletModal button{
+    z-index: 101;
+}
+
+#closeWalletModal{
+    position: fixed;
+    display: block;
+    right: 12px;
+    top: 12px;
+}
+
+#gryfynIFrame{
+    position: fixed !important;
+    max-width: 550px;
+    min-width: 280px;
+    max-height: 720px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 101 !important;
+    top:0;
+    bottom: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.spinner {
+    width: 80px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(farthest-side,#439948 95%,#0000) 50% 1px/12px 12px no-repeat, radial-gradient(farthest-side,#0000 calc(100% - 14px),rgba(204, 204, 204, 0.202) 0);
+    animation: s9 1.5s infinite linear;
+    position: relative;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  @keyframes s9 {to{transform: rotate(1turn)}}
+  
+/* Custom wallet styling end */
+
 /*
 |--------------------------------------------------------------------------
 | All Animation Classes
@@ -882,6 +998,14 @@ body{
 |--------------------------------------------------------------------------
 */
 
+@media only screen and (max-width: 800px){
+    #gryfynIFrame {
+        max-height: none !important;
+        max-width: 800px;
+        height: 100% !important;
+    }
+}
+
 @media only screen and (max-width: 700px){
     html{
         font-size: 14.4px;
@@ -938,3 +1062,15 @@ body{
         height: auto;
     }
 }
+
+/* Custom wallet styling start */
+
+@media only screen and (max-width: 550px){
+    #gryfynIFrame {
+        left: 0 !important;
+    }
+    #walletModal button{
+        display: none;
+    }
+}
+/* Custom wallet styling end */

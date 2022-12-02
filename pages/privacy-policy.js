@@ -5,7 +5,7 @@ import PageHead from '../components/PageHead'
 import SVG from '../components/SVG'
 
 export default function Privacy(){   
-    Link
+    var window = null;
     return (<>
     <PageHead/>
     <Header/>
@@ -41,17 +41,6 @@ export default function Privacy(){
                 <div className='flex gap-3'>
                     <SVG name={'document_text'} classes={'w-11 h-11 shrink-0'}/>
                     <div>
-                        <dt className="font-['basier_circle_semibold'] text-white mb-2">
-                            Interaction with external social networks and platforms
-                        </dt>
-                        <dd>
-                            <span className="font-['basier_circle_semibold']">Analytics &#38; Third-Party Service Providers</span>
-                        </dd>
-                    </div>
-                </div>      
-                <div className='flex gap-3'>
-                    <SVG name={'document_text'} classes={'w-11 h-11 shrink-0'}/>
-                    <div>
                         <dt className="font-['basier_circle_semibold'] text-white mb-2">Managing contacts and sending messages</dt>
                         <dd>
                             <span className="font-['basier_circle_semibold']">MailerLite</span><br/>
@@ -62,9 +51,11 @@ export default function Privacy(){
                 <div className='flex gap-3'>
                     <SVG name={'document_text'} classes={'w-11 h-11 shrink-0'}/>
                     <div>
-                        <dt className="font-['basier_circle_semibold'] text-white mb-2">Managing support and contact requests</dt>
+                        <dt className="font-['basier_circle_semibold'] text-white mb-2">Registration and authentication</dt>
                         <dd>
-                            <span className="font-['basier_circle_semibold']">Animoca Brands Limited Privacy Policy</span>
+                            <span className="font-['basier_circle_semibold']">Delegation of data processing by the Owner for User identification</span><br/><br/>
+                            <span className="font-['basier_circle_semibold']">Direct registration and profiling</span><br/>
+                            <span>Personal Data: country; date of birth; email address; first name; last name</span>
                         </dd>
                     </div>
                 </div>  
@@ -86,20 +77,21 @@ export default function Privacy(){
                 <SVG name={'user'} classes={'w-12 h-12 shrink-0'}/>
                 <div>
                     <span className="font-['basier_circle_semibold']">Owner and Data Controller</span><br/>
-                    <span>Gryfyn HK Limited - Unit 417-421, Cyberport 1, 100</span><br/>
-                    <span>Cyberport Road, Pok Fu Lam, Hong Kong.</span><br/><br/>
-                    <span><span className="font-['basier_circle_semibold']">Owner contact email:</span>info@gryfyn.io</span>
+                    <span>Gryfyn Global Limited</span><br/>
+                    <span><span className="font-['basier_circle_semibold']">Owner contact email: </span>
+                    info@gryfyn.io</span>
                 </div>
             </address>
             <a href='https://www.iubenda.com/privacy-policy/51877991/legal' className='flex flex-col text-center p-5 text-2xl'><b className="font-['neue_metana_bold']">Show the complete Privacy Policy</b></a>
         </div>
         <div className="flex flex-col items-center content-center justify-center">
-            <spam className="privacy-sub font-['neue_metana_regular'] text-center">i am your&nbsp;<b className="font-['neue_metana_bold']">wallet.</b></spam>
-            <spam className="font-['basier_circle']">An NFT-centric wallet for the curious ones. </spam> 
-            <spam className="font-['basier_circle']">Experience the digital world like never before.</spam>
+            <span className="privacy-sub font-['neue_metana_regular'] text-center">i am your&nbsp;<b className="font-['neue_metana_bold']">wallet.</b></span>
+            <span className="font-['basier_circle']">An NFT-centric wallet for the curious ones. </span> 
+            <span className="font-['basier_circle']">Experience the digital world like never before.</span>
         </div>
     </LandingPageSection>
     <span className='fixed bottom-0 right-0 flex justify-end w-full gap-8 p-6 bg-black'>
+        {window &&  <a href={`${window?.location?.origin}/`}>Home</a>}
         <Link href="/privacy-policy">Privacy Policy</Link>
         <Link href="/cookie-policy">Cookie Policy</Link>
         <Link href="/terms-and-conditions"><a>Terms &#38; Conditions</a></Link>

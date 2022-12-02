@@ -6,10 +6,11 @@ ARG REGISTRY_HOST
 ARG PROJECT_ID
 ARG AUTH_TOKEN
 
-RUN apk add --no-cache libc6-compat
+RUN apk add --update --no-cache libc6-compat python3 make gcc g++
 WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+COPY package.json ./
+RUN echo ${NPM_REGISTRY_CONFIGURATION} | base64 -d > ~/.npmrc
+RUN npm install
 
 FROM registry.tech.hextech.io/library/node:16-alpine as builder
 WORKDIR /app
@@ -21,7 +22,10 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN yarn build
+ARG DYNAMIC_BUILD_ARGS
+ARG GOOGLE_ANALYTICS_TAG
+
+RUN npm run build
 
 FROM registry.tech.hextech.io/library/nginx:1.21-alpine
 ENV USR=nginx
@@ -37,3 +41,4 @@ COPY --chown=nginx:nginx --from=builder /app/out /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE $PORT
+

@@ -10,23 +10,27 @@ export default function Popup(props){
     useEffect(() => {
         // When the popup is shown
         if(props.shown){
-            popupRef.current.classList.remove('invisible', 'opacity-0')
+            popupRef.current.classList.remove('invisible', 'opacity-0', 'hidden')
         }
         // When the popup is hidden
         else{
             popupRef.current.classList.add('opacity-0')
             
             setTimeout(() => {
-                popupRef.current.classList.add('invisible')
+                popupRef.current.classList.add('invisible', 'hidden')
+                
             }, 300)   
         }
     }, [props.shown])
 
     return (
         <section ref={popupRef} className={popupClasses}>
-            <button type="button" className="absolute text-6xl text-white top-5 right-12" onClick={props.toggleShown}>
+            
+            {props.shown &&
+            <button type="button" className={props.closeBtnClasses ? 'absolute text-white'+props.closeBtnClasses : "absolute text-6xl text-white top-5 right-12"} onClick={props.toggleShown}>
                 &times;
             </button>
+            }
             <div className={contentWrapperClasses}>
                 <div className="p-4">{props.body}</div>
             </div>
