@@ -266,7 +266,7 @@ export default function Home(){
                     </p>
 
                     {loadedScript ?
-                        <button id="open-wallet" type="button" data-modal-toggle="walletModal" className="text-lg landing-btn" onClick={connect}>Open Wallet</button>
+                        <button id="landing-wallet-btn" type="button" data-modal-toggle="walletModal" className="text-lg landing-btn" onClick={connect}>Open Wallet</button>
                         : null}
 
                     <p className="landing-scroll-btn relative flex items-center w-full tablet:justify-center" style={{ zIndex: '1' }}>

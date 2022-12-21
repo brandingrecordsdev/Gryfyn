@@ -377,6 +377,21 @@ font-size: 35px;
     transition: all 0.5s ease;
 }
 
+#landing-wallet-btn {
+    font-family: "basier circle";
+    border: 3px solid #E1D8CC;
+    border-radius: 42px;
+    padding: 0.5em 1em;
+    --tw-text-opacity: 1;
+    color: #E1D8CC;
+    --tw-bg-opacity: 1;
+    background-color: transparent;
+    box-shadow: 0 0 0 #333;
+    z-index: 99;
+    transition: all 0.5s ease;
+}
+
+#landing-wallet-btn:hover,
 #open-wallet:hover{
     background: #FE6B32;
     color: white;
@@ -1069,10 +1084,6 @@ font-size: 35px;
         font-size: 14.4px;
     }
 
-    .welcome-msg {
-        font-size: 3rem;
-    }
-
     #im-your-imagination .im-your-imagination-fading-text{
         font-size: 8vw;
     }    
@@ -1134,6 +1145,10 @@ font-size: 35px;
     }
     #walletModal button{
         display: none;
+    }
+
+    .welcome-msg {
+        font-size: 3rem;
     }
 }
 /* Custom wallet styling end */
