@@ -180,14 +180,30 @@ const funnyScroll = new FunnyScroll({
     transDur: '500ms',
     callbacks: {
         '0': {
+            'enterStart': (section) => {
+                section.classList.add('enter-start')                   
+            },            
+            'enterEnd': (section) => {
+                section.classList.add('enter-end')   
+                document.querySelector('.nav-btn').style = 'opacity: 0;'                       
+            },  
+            'leaveEnd': (section) => {
+                section.classList.remove('enter-start')
+                section.classList.remove('enter-end')
+            },                               
+        },        
+        '1': {
+            'enterStart': (section) => {
+                document.querySelector('.nav-btn').style = 'opacity: 1;'               
+            },  
             enterEnd: () => {
                 document.getElementById('star-divider').style = 'transform: rotate(0deg);'
             },     
             'leaveStart': (section) => {
-                document.getElementById('star-divider').style = 'transform: rotate(90deg);'
-            },                                
-        },        
-        '1': {
+                document.getElementById('star-divider').style = 'transform: rotate(90deg);'   
+            },                              
+        },
+        '2': {
             'enterStart': (section) => {
                 section.classList.add('enter-start')                   
             },            
@@ -203,18 +219,6 @@ const funnyScroll = new FunnyScroll({
                 section.classList.remove('enter-end')
             },                             
         },
-        '2': {
-            'enterStart': (section) => {
-                section.classList.add('enter-start')                   
-            },            
-            'enterEnd': (section) => {
-                section.classList.add('enter-end')                   
-            },  
-            'leaveEnd': (section) => {
-                section.classList.remove('enter-start')
-                section.classList.remove('enter-end')
-            },                             
-        },      
         '3': {
             'enterStart': (section) => {
                 section.classList.add('enter-start')                   
@@ -226,8 +230,20 @@ const funnyScroll = new FunnyScroll({
                 section.classList.remove('enter-start')
                 section.classList.remove('enter-end')
             },                             
-        },
+        },      
         '4': {
+            'enterStart': (section) => {
+                section.classList.add('enter-start')                   
+            },            
+            'enterEnd': (section) => {
+                section.classList.add('enter-end')                   
+            },  
+            'leaveEnd': (section) => {
+                section.classList.remove('enter-start')
+                section.classList.remove('enter-end')
+            },                             
+        },
+        '5': {
             'enterStart': (section) => {
                 section.classList.add('enter-start')                   
             },            
@@ -247,7 +263,7 @@ const funnyScroll = new FunnyScroll({
                 section.classList.remove('enter-end')
             },                             
         },    
-        '5': {
+        '6': {
             'enterStart': (section) => {
                 section.style = 'opacity: 1';
                 section.classList.add('enter-start')                   
@@ -264,7 +280,7 @@ const funnyScroll = new FunnyScroll({
                 section.classList.remove('enter-end')
             },                             
         },     
-        '6': {
+        '7': {
             'enterStart': (section) => {
                 section.classList.add('enter-start')                   
             },            
@@ -280,22 +296,6 @@ const funnyScroll = new FunnyScroll({
                 section.classList.remove('enter-end')
             },                             
         },         
-        '7': {
-            'enterStart': (section) => {
-                section.classList.add('enter-start')                   
-            },            
-            'enterEnd': (section) => {
-                section.classList.add('enter-end')                   
-            },  
-            'leaveStart': (section) => { 
-                section.style = 'opacity: 0';
-            },             
-            'leaveEnd': (section) => {
-                section.style = '';
-                section.classList.remove('enter-start')
-                section.classList.remove('enter-end')
-            },                             
-        },      
         '8': {
             'enterStart': (section) => {
                 section.classList.add('enter-start')                   
@@ -311,8 +311,24 @@ const funnyScroll = new FunnyScroll({
                 section.classList.remove('enter-start')
                 section.classList.remove('enter-end')
             },                             
-        },   
+        },      
         '9': {
+            'enterStart': (section) => {
+                section.classList.add('enter-start')                   
+            },            
+            'enterEnd': (section) => {
+                section.classList.add('enter-end')                   
+            },  
+            'leaveStart': (section) => { 
+                section.style = 'opacity: 0';
+            },             
+            'leaveEnd': (section) => {
+                section.style = '';
+                section.classList.remove('enter-start')
+                section.classList.remove('enter-end')
+            },                             
+        },   
+        '10': {
             'enterStart': (section) => {
                 section.classList.add('enter-start')                   
             },            
@@ -328,7 +344,7 @@ const funnyScroll = new FunnyScroll({
                 section.classList.remove('enter-end')
             },                             
         },        
-        '10': {
+        '11': {
             'enterStart': (section) => {
                 section.classList.add('enter-start')                   
             },            
@@ -343,7 +359,8 @@ const funnyScroll = new FunnyScroll({
                 section.classList.remove('enter-start')
                 section.classList.remove('enter-end')
             },                             
-        },          
+        },  
+                
     }        
 })
 setTimeout(() => {

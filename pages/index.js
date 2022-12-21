@@ -256,8 +256,29 @@ export default function Home(){
         <MainLayout>
         
             <div id="wrapper" className="wrapper">
-                <LandingPageSection classes={'relative flex flex-col'} tag={'header'} attr={{id: 'world-beyond'}}>
-                    <h1 className="relative text-5xl font-['neue_metana_regular'] w-full leading-tight tablet:flex tablet:flex-wrap tablet:justify-center" style={{zIndex: '1'}}>
+
+            <LandingPageSection tag={'div'} classes={"flex flex-col items-center justify-center"} attr={{
+                    id: 'welcome-to-gryfyn'
+                }}>
+                    <div className="welcome-wrapper">
+                    <p className="mb-10 text-7xl font-['neue_metana_regular'] welcome-msg">
+                        Welcome To <span className="font-['neue_metana_bold']"> Gryfyn. </span>
+                    </p>
+
+                    {loadedScript ?
+                        <button id="open-wallet" type="button" data-modal-toggle="walletModal" className="text-lg landing-btn" onClick={connect}>Open Wallet</button>
+                        : null}
+
+                    <p className="landing-scroll-btn relative flex items-center w-full tablet:justify-center" style={{ zIndex: '1' }}>
+                        <span className="relative before:absolute before:rounded-full before:top-2 before:left-2.5 inline-block h-12 mr-6 border-2 rounded-full w-7 anim-scroll-to-explore before:content-[''] before:w-1 before:h-2"></span>
+                        Scroll to explore
+                    </p>
+
+                    </div>
+                </LandingPageSection>
+
+                <LandingPageSection classes={'relative flex flex-col'} tag={'header'} attr={{id: 'world-beyond', 'data-hold-leave': 300 , 'data-hold-enter': 1200,}}>
+                    <h1 className="relative text-5xl font-['neue_metana_regular'] text-center w-full leading-tight tablet:flex tablet:flex-wrap tablet:justify-center" style={{zIndex: '1'}}>
                         <span style={{marginRight: '0.5em'}}>A</span>
                         <span className='relative' style={{marginRight: '0.5em'}}>
                             world
@@ -265,7 +286,7 @@ export default function Home(){
                             <SVG name={'sun_empty'} classes={'absolute anim-world-beyond-o'} attr={{
                                 style: {width: '1.4em', left: '0.8em', top: '-0.2em'}
                             }}/>
-                        </span><br className='tablet:hidden'/>
+                        </span>
                         <span style={{marginRight: '0.5em'}}>beyond</span>
                         <span className='relative' style={{marginRight: '0.5em'}}>
                             your
@@ -286,10 +307,6 @@ export default function Home(){
                             <SVG name={'eye'} classes={'absolute eye-in-a'}/>                            
                         </span>
                     </h1>    
-                    <p className="relative flex items-center w-full mt-10 tablet:justify-center" style={{zIndex: '1'}}>
-                        <span className="relative before:absolute before:rounded-full before:top-2 before:left-2.5 inline-block h-12 mr-6 border-2 rounded-full w-7 anim-scroll-to-explore before:content-[''] before:w-1 before:h-2"></span>
-                        Scroll to explore                       
-                    </p>
                     <SVG name={'star'} classes={'absolute'} attr={{
                         id: "star-divider",
                         'data-0': 'transform: rotate(0deg);',
@@ -543,7 +560,7 @@ export default function Home(){
             </div>
             <aside>
                 {loadedScript ? 
-                <button id="open-wallet" type="button" data-modal-toggle="walletModal" className="text-lg fixed top-4 right-6" onClick={connect}>Open Wallet</button>
+                <button id="open-wallet" type="button" data-modal-toggle="walletModal" className="text-lg fixed top-4 right-6 nav-btn" onClick={connect}>Open Wallet</button>
                 : null }
 
                 {/* <ScrollBtn /> */}

@@ -7,7 +7,7 @@ import SVG from './SVG'
 export default function Header(){
 
     return (<>
-        <nav  className="fixed top-0 left-0 flex flex-col items-center h-screen gap-0 p-4 bg-black mobile:justify-start laptop:justify-between desktop:justify-between py-7 mobile:py-2 tablet:flex-row tablet:w-full tablet:h-auto navbar">
+        <nav  className="fixed top-0 left-0 flex flex-col items-center h-screen gap-0 p-4 bg-black mobile:justify-start laptop:justify-between desktop:justify-between py-7 mobile:py-4 tablet:flex-row tablet:w-full tablet:h-auto navbar">
             <a href="https://gryfyn.io/">
             <SVG name={'fire'} classes={'w-16 tablet:hidden'}/>
             </a>
