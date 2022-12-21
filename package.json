@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "next dev",
     "dev2": "next dev -p 8080",
+    "export": "next build && next export",
     "build": "next build && next export",
     "start": "next start",
     "lint": "next lint"
