@@ -185,19 +185,19 @@ const funnyScroll = new FunnyScroll({
             },            
             'enterEnd': (section) => {
                 section.classList.add('enter-end')   
-                document.querySelector('.nav-btn').style = 'display:none;' 
-                document.querySelector('#landing-wallet-btn').style = 'display:block;'
+                document.querySelector('.nav-btn').style = 'opacity: 0;' 
+                document.querySelector('#landing-wallet-btn').style = 'opacity: 1;'
                 
             },  
             'leaveEnd': (section) => {
                 section.classList.remove('enter-start')
                 section.classList.remove('enter-end')
-                document.querySelector('#landing-wallet-btn').style = 'display: none;'
+                document.querySelector('#landing-wallet-btn').style = 'opacity: 0;'
             },                               
         },        
         '1': {
             'enterStart': (section) => {
-                document.querySelector('.nav-btn').style = 'display: block;'               
+                document.querySelector('.nav-btn').style = 'opacity: 1;'               
             },  
             enterEnd: () => {
                 document.getElementById('star-divider').style = 'transform: rotate(0deg);'
