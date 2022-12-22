@@ -964,6 +964,7 @@ font-size: 35px;
 
     .landing-btn {
         font-size: 24px;
+        padding: 0.5em 3em !important;
     }
 
     .welcome-msg {
@@ -973,6 +974,7 @@ font-size: 35px;
         flex-direction: column;
         text-align: center;
     }
+
 
     #welcome-to-gryfyn {
         justify-content: end !important;
