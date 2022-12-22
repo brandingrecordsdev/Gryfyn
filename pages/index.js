@@ -26,6 +26,16 @@ export default function Home(){
     const [curUrlBase, setUrlBase] = useState();
 
     const [loadedScript, setLoadedScript] = useState(false);
+
+    function hoverLandingBtn (e) {
+        let landingBtn = document.querySelector('#landing-wallet-btn')
+        landingBtn.classList.add("btn-hover")
+    }
+
+    function hoverOutLandingBtn (e) {
+        let landingBtn = document.querySelector('#landing-wallet-btn')
+        landingBtn.classList.remove("btn-hover");
+    }
     
     const openWallet = useCallback(() => {
         if(localWalletProvider){
@@ -103,6 +113,7 @@ export default function Home(){
             console.error('Error wile subscribing: ', err);
         });        
     }, [usrEmailAddr]);
+
 
     const connect = () => {
         if(loadedScript && localWalletProvider && !isConnected){
@@ -260,7 +271,7 @@ export default function Home(){
             <LandingPageSection tag={'div'} classes={"flex flex-col items-center justify-center"} attr={{
                     id: 'welcome-to-gryfyn'
                 }}>
-                    <div className="welcome-wrapper">
+                    <div className="welcome-wrapper" onMouseEnter={hoverLandingBtn} onMouseLeave={hoverOutLandingBtn}>
                     <p className="mb-10 text-7xl font-['neue_metana_regular'] welcome-msg">
                         Welcome To <span className="font-['neue_metana_bold']"> Gryfyn. </span>
                     </p>
