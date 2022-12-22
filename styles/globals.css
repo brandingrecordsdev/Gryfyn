@@ -983,7 +983,7 @@ font-size: 35px;
     }
 
     .welcome-msg {
-        margin-bottom: 25vh !important;
+        margin-bottom: 25vh;
         display: flex;
         align-items: center;
         flex-direction: column;
@@ -1097,6 +1097,14 @@ font-size: 35px;
 @media only screen and (max-width: 700px){
     html{
         font-size: 14.4px;
+    }
+
+    .landing-btn {
+        font-size: 18px;
+    }
+
+    .welcome-msg {
+        margin-bottom: 20vh !important;
     }
 
     #im-your-imagination .im-your-imagination-fading-text{
