@@ -320,7 +320,7 @@ font-size: 35px;
 }
 
 .welcome-wrapper {
-   cursor: pointer;
+   /* cursor: pointer; */
    width: 100vw;
 }
 
