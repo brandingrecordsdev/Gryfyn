@@ -476,6 +476,10 @@ font-size: 35px;
     opacity: 0;
 }
 
+.welcome-msg {
+    line-height: normal;
+}
+
 #im-your-imagination #pattern-10{
     transform: translate(-3rem, -12rem);
 }
