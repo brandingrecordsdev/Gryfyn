@@ -321,7 +321,7 @@ font-size: 35px;
 
 .welcome-wrapper {
    cursor: pointer;
-   width: 100vw;
+   width: 100%;
 }
 
 #im-your-imagination .star-container{

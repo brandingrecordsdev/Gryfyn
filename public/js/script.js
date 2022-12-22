@@ -185,11 +185,14 @@ const funnyScroll = new FunnyScroll({
             },            
             'enterEnd': (section) => {
                 section.classList.add('enter-end')   
-                document.querySelector('.nav-btn').style = 'opacity: 0;'                       
+                document.querySelector('.nav-btn').style = 'opacity: 0;' 
+                document.querySelector('#landing-wallet-btn').style = 'opacity: 1;'
+                
             },  
             'leaveEnd': (section) => {
                 section.classList.remove('enter-start')
                 section.classList.remove('enter-end')
+                document.querySelector('#landing-wallet-btn').style = 'opacity: 0;'
             },                               
         },        
         '1': {
