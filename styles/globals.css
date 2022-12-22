@@ -1103,12 +1103,20 @@ font-size: 35px;
         font-size: 14.4px;
     }
 
+    #welcome-to-gryfyn {
+        padding-bottom: 3rem;
+    }
+
     .landing-btn {
         font-size: 18px;
     }
 
     .welcome-msg {
-        margin-bottom: 25% !important;
+        margin-bottom: 40% !important;
+    }
+
+    .landing-scroll-btn {
+        margin-top: 50px;
     }
 
     #im-your-imagination .im-your-imagination-fading-text{
