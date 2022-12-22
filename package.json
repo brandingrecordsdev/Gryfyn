@@ -24,6 +24,7 @@
     "web3": "^1.8.0"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^4.29.4",
     "autoprefixer": "^10.4.8",
     "dotenv": "^16.0.3",
     "eslint": "^8.25.0",
