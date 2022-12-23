@@ -185,7 +185,7 @@ const funnyScroll = new FunnyScroll({
             },            
             'enterEnd': (section) => {
                 section.classList.add('enter-end')   
-                document.querySelector('.nav-btn').style = 'opacity: 0;' 
+                document.querySelector('.nav-btn').style = 'opacity: 0; pointer-events: none;' 
                 document.querySelector('#landing-wallet-btn').style = 'opacity: 1;'
                 
             },  
@@ -197,7 +197,7 @@ const funnyScroll = new FunnyScroll({
         },        
         '1': {
             'enterStart': (section) => {
-                document.querySelector('.nav-btn').style = 'opacity: 1;'               
+                document.querySelector('.nav-btn').style = 'opacity: 1; pointer-events: auto'                       
             },  
             enterEnd: () => {
                 document.getElementById('star-divider').style = 'transform: rotate(0deg);'
